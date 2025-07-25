@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get/get.dart'; // for .tr translations
+import 'package:trade_journal_ai/helper/extension/base_extension.dart';
 
 import '../../../utils/text_style/text_style.dart';
 import 'controller/auth_controller.dart';
@@ -75,16 +77,21 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
   }
 
   void _verifyCode() {
-    final code = controllers.map((c) => c.text).join();
-    if (isCodeComplete && email != null) {
-      if (isResetPassword) {
-        // For forgot password flow
-        authController.verifyResetPasswordOtp(context, code, email: email);
-      } else {
-        // For signup flow
-        authController.verifyOtp(context, code, email: email);
-      }
-    }
+    // final code = controllers.map((c) => c.text).join();
+    // if (isCodeComplete && email != null) {
+    //   if (isResetPassword) {
+    //     // For forgot password flow
+    //     authController.verifyResetPasswordOtp(context, code, email: email);
+    //   } else {
+    //     // For signup flow
+    //     authController.verifyOtp(context, code, email: email);
+    //   }
+    // }
+    Future.delayed(const Duration(seconds: 1), () {
+      context.go(RoutePath.resetPassConfirm.addBasePath, extra: {
+        "reset_token": "sample_reset_token", // Replace with actual token logic
+      });
+    });
   }
 
   @override
@@ -102,7 +109,7 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                   onTap: () {
                     context.pop();
                   },
-                  child: Image.asset(
+                  child: SvgPicture.asset(
                     Assets.icons.backArrow.path,
                     width: 24.w,
                     height: 24.h,

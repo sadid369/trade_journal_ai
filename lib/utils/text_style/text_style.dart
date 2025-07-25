@@ -438,7 +438,7 @@ class AppStyle {
     height: 1.67,
   );
   static final inter14w500C7CE3D7 = GoogleFonts.inter(
-    color: const Color(0xFF7CE3D7),
+    color: AppColors.primary,
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
     height: 1.67,
@@ -613,5 +613,56 @@ class AppStyle {
     color: const Color(0xFF999999),
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
+  );
+  static final TextStyle roboto18w4001D1B20H1 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w400,
+    height: 1,
+  );
+  static final TextStyle roboto24w5001D1B20H075 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
+    height: 0.75,
+  );
+  static final TextStyle roboto14w4001D1B20H121 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+    height: 1.21,
+  );
+  static final TextStyle roboto24w5001D1B20H071 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
+    height: 0.71,
+  );
+  static final TextStyle roboto24w5001D1B20H104 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.04,
+  );
+  static final TextStyle roboto48w70080DFDB = GoogleFonts.roboto(
+    color: const Color(0xFF80DFDB),
+    fontSize: 48.sp,
+    fontWeight: FontWeight.w700,
+  );
+  static final TextStyle archivo20w5001D1B20 = GoogleFonts.archivo(
+    color: const Color(0xFF1D1B20),
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w500,
+  );
+  static final TextStyle roboto16w500999999 = GoogleFonts.roboto(
+    color: const Color(0xFF999999),
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+  );
+  static final TextStyle roboto16w5001D1B20H112 = GoogleFonts.roboto(
+    color: const Color(0xFF1D1B20),
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    height: 1.12,
   );
 }

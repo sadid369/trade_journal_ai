@@ -113,7 +113,11 @@ class LoginScreen extends StatelessWidget {
                         text: AppStrings.signIn.tr,
                         onPressed: authController.isLoading.value
                             ? null
-                            : () => authController.login(context),
+                            // : () => authController.login(context),
+                            : () {
+                                context
+                                    .push(RoutePath.welcomeScreen.addBasePath);
+                              },
                         // onPressed: () {
                         //   context.push(RoutePath.adminDashboard.addBasePath);
                         // },

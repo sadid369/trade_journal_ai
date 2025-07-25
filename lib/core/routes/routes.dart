@@ -10,9 +10,16 @@ import '../../presentation/screens/auth/set_new_password_screen.dart';
 import '../../presentation/screens/auth/update_password_success_screen.dart';
 import '../../presentation/screens/auth/verify_code_screen.dart';
 
+import '../../presentation/screens/chatbot/chatbot_screen.dart';
+import '../../presentation/screens/home/home_screen.dart';
+import '../../presentation/screens/main/main_screen.dart';
+import '../../presentation/screens/report/report_screen.dart';
+import '../../presentation/screens/settings/setting_screen.dart';
 import '../../presentation/screens/splash_screen/splash_screen.dart';
+import '../../presentation/screens/welcome/welcome_screen.dart';
 import '../../presentation/widgets/error_screen/error_screen.dart';
 import '../../presentation/widgets/payment_modal/payment_modal.dart';
+// import '../../presentation/screens/main/main_screen_with_bottom_nav.dart';
 import 'route_observer.dart';
 import 'route_path.dart';
 
@@ -47,6 +54,17 @@ class AppRouter {
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
             child: const SplashScreen(),
+            transitionsBuilder: _fadeTransition,
+          ),
+        ),
+
+        ///======================= Welcome Route =======================
+        GoRoute(
+          name: RoutePath.welcomeScreen,
+          path: RoutePath.welcomeScreen.addBasePath,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            child: WelcomeScreen(),
             transitionsBuilder: _fadeTransition,
           ),
         ),
@@ -134,6 +152,56 @@ class AppRouter {
             child: const PaymentModal(),
             transitionsBuilder: _fadeTransition,
           ),
+        ),
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) =>
+              MainScreenWithBottomNav(navigationShell: navigationShell),
+          branches: [
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: RoutePath.home.addBasePath,
+                  name: RoutePath.home,
+                  builder: (context, state) => HomeScreen(),
+                  routes: [
+                    // GoRoute(
+                    //   path: 'details/:id',
+                    //   builder: (context, state) => HomeDetailsScreen(
+                    //     id: state.pathParameters['id']!,
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: RoutePath.report.addBasePath,
+                  name: RoutePath.report,
+                  builder: (context, state) => ReportScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: RoutePath.chatbot.addBasePath,
+                  name: RoutePath.chatbot,
+                  builder: (context, state) => ChatbotScreen(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: RoutePath.settings.addBasePath,
+                  name: RoutePath.settings,
+                  builder: (context, state) => SettingScreen(),
+                ),
+              ],
+            ),
+          ],
         ),
       ],
       observers: [routeObserver],

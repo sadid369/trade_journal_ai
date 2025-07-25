@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get/get.dart';
 import 'package:trade_journal_ai/helper/extension/base_extension.dart';
 
+import '../../../core/custom_assets/assets.gen.dart';
 import '../../../core/routes/route_path.dart';
 import '../../../utils/app_colors/app_colors.dart';
 import '../../../utils/static_strings/static_strings.dart';
@@ -31,14 +33,10 @@ class UpdatePasswordSuccessScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0xFFE5FFFC),
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.primary, width: 2.w),
+                  // border: Border.all(color: AppColors.primary, width: 2.w),
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.check,
-                    color: AppColors.primary,
-                    size: 40.w,
-                  ),
+                  child: SvgPicture.asset(Assets.icons.success.path),
                 ),
               ),
               Gap(31.h),
@@ -48,7 +46,8 @@ class UpdatePasswordSuccessScreen extends StatelessWidget {
                 padding: EdgeInsets.all(22.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(4.r),
+                  borderRadius: BorderRadius.circular(25.r),
+                  border: Border.all(color: AppColors.primary, width: 1.w),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

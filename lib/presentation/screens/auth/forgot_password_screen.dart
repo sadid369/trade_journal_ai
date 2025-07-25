@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:get/get.dart';
+import 'package:trade_journal_ai/helper/extension/base_extension.dart';
 
 import '../../../core/custom_assets/assets.gen.dart';
 import '../../../core/routes/route_path.dart';
@@ -53,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   onTap: () {
                     context.pop();
                   },
-                  child: Image.asset(
+                  child: SvgPicture.asset(
                     Assets.icons.backArrow.path,
                     width: 24.w,
                     height: 24.w,
@@ -103,7 +105,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       onPressed: authController.isLoading.value
                           ? null
                           : authController.isResetButtonEnabled.value
-                              ? () => authController.forgotPassword(context)
+                              // ? () => authController.forgotPassword(context)
+                              ? () {
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    context.go(
+                                        RoutePath.verification.addBasePath,
+                                        extra: {
+                                          "email": "test@gmail.com",
+                                          "isResetPassword":
+                                              true, // Flag to identify this is for password reset
+                                        });
+                                  });
+                                }
                               : null,
                       width: double.infinity,
                       height: 48.h,

@@ -60,4 +60,10 @@ class RoutePath {
   static const String adminChangePasswordScreen = 'adminchangePasswordScreen';
   static const String adminUpdateProfileScreen = 'adminUpdateProfileScreen';
   static const String appConfigurationsScreen = 'appConfigurationsScreen';
+
+  ///////////////
+  //=================== Welcome Screens ===================
+  static const String welcomeScreen = 'welcomeScreen';
+  static const String mainScreen = 'mainScreen';
+  static const String chatbot = 'chatbot';
 }

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/custom_assets/assets.gen.dart';
 import '../../widgets/custom_navbar/custom_navbar.dart';
 
 class MainScreenWithBottomNav extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
-  final bool isAdmin; // <-- Add this
 
   const MainScreenWithBottomNav({
     super.key,
     required this.navigationShell,
-    this.isAdmin = true, // <-- Default to false
   });
 
   @override
@@ -19,28 +18,24 @@ class MainScreenWithBottomNav extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: navigationShell.currentIndex,
         onTap: (index) => _onTabTapped(context, index),
-        icons: isAdmin
-            ? const [
-                'assets/icons/dashboard.svg',
-                'assets/icons/users.svg',
-                'assets/icons/settings.svg',
-              ]
-            : const [
-                'assets/icons/home.svg',
-                'assets/icons/search.svg',
-                'assets/icons/settings.svg',
-              ],
-        labels: isAdmin
-            ? const [
-                'Dashboard',
-                'User',
-                'Settings',
-              ]
-            : const [
-                'Home',
-                'Search',
-                'Settings',
-              ],
+        selectedIcons: [
+          Assets.icons.homefill,
+          Assets.icons.journalfill,
+          Assets.icons.botfill,
+          Assets.icons.settingsfill,
+        ],
+        unselectedIcons: [
+          Assets.icons.home,
+          Assets.icons.journal,
+          Assets.icons.bot,
+          Assets.icons.settings,
+        ],
+        labels: const [
+          'Home',
+          'Reports',
+          'Chatbot',
+          'Settings',
+        ],
       ),
     );
   }
