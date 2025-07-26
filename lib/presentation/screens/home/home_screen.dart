@@ -160,6 +160,10 @@ class TradeSuccessRateWidget extends StatelessWidget {
         color: Colors
             .transparent, // Keeping the black background as in your initial image
         borderRadius: BorderRadius.circular(16), // More rounded corners
+        border: Border.all(
+          color: AppColors.borderColor,
+          width: 1,
+        ),
       ),
       child: Stack(
         children: [
