@@ -1,265 +1,362 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:trade_journal_ai/core/custom_assets/assets.gen.dart';
 import 'package:trade_journal_ai/utils/app_colors/app_colors.dart';
-import 'package:trade_journal_ai/utils/text_style/text_style.dart';
+
+import '../../../core/custom_assets/assets.gen.dart';
+import '../../../utils/text_style/text_style.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[50],
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage:
+                            AssetImage(Assets.images.profilepic.path),
+                      ),
+                      Gap(10.w),
+                      Text(
+                        'Hello, Alex!',
+                        style: AppStyle.roboto16w5001D1B20H112,
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(
+                    Assets.icons.notification.path,
+                    width: 24.w,
+                    height: 24.h,
+                  ),
+                ],
+              ),
+              Gap(20.w),
+              Text(
+                'Default Journal',
+                style: AppStyle.archivo20w500BlackH090,
+              ),
+              Gap(20.h),
+
+              // Stats Cards Row
+              SizedBox(
+                height: 110.h, // Adjust height as needed for your design
+                child: Row(
                   children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage:
-                              AssetImage(Assets.images.profilepic.path),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'Hello, Alex!',
-                          style: AppStyle.roboto16w5001D1B20H112,
-                        ),
-                      ],
+                    Expanded(
+                      child: _buildStatCard(
+                        '5',
+                        'Total\nTrades',
+                        Colors.black,
+                      ),
                     ),
-                    SvgPicture.asset(
-                      Assets.icons.notification.path,
-                      width: 24.w,
-                      height: 24.h,
+                    Gap(12.w),
+                    Expanded(
+                      child: _buildStatCard(
+                        '+\$750',
+                        'P/L',
+                        Colors.black,
+                      ),
+                    ),
+                    Gap(12.w),
+                    Expanded(
+                      child: _buildStatCard(
+                        '10%',
+                        'Win Rate',
+                        Colors.black,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+              ),
 
-                // Daily Performance Card
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: AppColors.borderColor,
-                      width: 1,
+              Gap(30.h),
+
+              // Statistics Section
+              Text(
+                'Statistic',
+                style: AppStyle.archivo20w500BlackH090,
+              ),
+              Gap(16.h),
+
+              // Chart Container
+              Container(
+                height: 200.h,
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 10,
+                      offset: Offset(0, 2.h),
                     ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Daily Performance',
-                        style: AppStyle.archivo20w5001D1B20,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '+\$750',
-                        style: AppStyle.roboto48w70080DFDB,
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        '5 trades',
-                        style: AppStyle.roboto16w500999999,
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-                SizedBox(height: 20),
-
-                // Grid Layout (4 Cards)
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 1.3,
-                    shrinkWrap: true,
-                    children: [
-                      _buildCard(
-                        icon: Assets.icons.journalIcon.path,
-                        title: 'Journal',
-                      ),
-                      _buildCard(
-                        icon: Assets.icons.strategyHubIcon.path,
-                        title: 'Strategy\nHub',
-                      ),
-                      _buildCard(
-                        icon: Assets.icons.mindsetPsycologyIcon.path,
-                        title: 'Mindset & Psychology',
-                      ),
-                      _buildCard(
-                        icon: Assets.icons.routineIcon.path,
-                        title: 'Routine',
-                      ),
-                      TradeSuccessRateWidget()
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// Function to build each card
-Widget _buildCard({required String icon, required String title}) {
-  return Container(
-    padding: EdgeInsets.only(left: 20.w, top: 20.w),
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: AppColors.borderColor,
-        width: 1,
-      ),
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SvgPicture.asset(
-          icon,
-          width: 37.w,
-          height: 32.w,
-        ),
-        Gap(20.w),
-        Text(
-          title,
-          style: AppStyle.roboto24w5001D1B20H104,
-        ),
-      ],
-    ),
-  );
-}
-
-// Custom Painter for the Progress Bar
-
-class TradeSuccessRateWidget extends StatelessWidget {
-  const TradeSuccessRateWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300, // Or adjust as needed
-      height: 150, // Or adjust as needed
-      decoration: BoxDecoration(
-        color: Colors
-            .transparent, // Keeping the black background as in your initial image
-        borderRadius: BorderRadius.circular(16), // More rounded corners
-        border: Border.all(
-          color: AppColors.borderColor,
-          width: 1,
-        ),
-      ),
-      child: Stack(
-        children: [
-          // LineChart for the curve
-          Positioned.fill(
-            // Make the chart fill the container
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 50.0), // Adjust padding to make space for text
-              child: LineChart(
-                LineChartData(
-                  minX: 0,
-                  maxX: 1,
-                  minY: 0,
-                  maxY: 1,
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: [
-                        FlSpot(0, 0.2), // Start lower on the left
-                        FlSpot(0.3, 0.4), // Control point 1
-                        FlSpot(0.6, 0.9), // Peak
-                        FlSpot(1, 0.5), // End point, slightly lower
+                child: Column(
+                  children: [
+                    // Legend
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        _buildLegendItem('Profit', Colors.green),
+                        Gap(16.w),
+                        _buildLegendItem('Loss', Colors.red),
                       ],
-                      isCurved: true,
-                      curveSmoothness: 0.2,
-                      // The line itself is hidden by barWidth: 0, so its gradient doesn't matter visually.
-                      // You can remove this gradient property if you strictly want no line.
-                      gradient: LinearGradient(
-                        colors: [
-                          // These are for the line, which is currently hidden (barWidth: 0)
-                          Colors
-                              .transparent, // Making line gradient transparent if you want
-                          Colors.transparent,
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      barWidth: 0, // Set barWidth to 0 to hide the line
-                      isStrokeCapRound: true,
-                      belowBarData: BarAreaData(
-                        show: true,
-                        // THIS IS WHERE THE CHART GRADIENT GOES
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter, // Corresponds to 180deg
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xFF1100FE).withOpacity(
-                                0.5), // #1100FE with some opacity for the area
-                            Color(0xFFCDCDCD).withOpacity(
-                                0.5), // #CDCDCD with some opacity for the area
+                    ),
+                    Gap(16.h),
+                    // Chart
+                    Expanded(
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.spaceAround,
+                          maxY: 100,
+                          barTouchData: BarTouchData(enabled: false),
+                          titlesData: FlTitlesData(
+                            show: true,
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) {
+                                  const months = [
+                                    'Jan',
+                                    'Feb',
+                                    'Mar',
+                                    'Apr',
+                                    'May',
+                                    'Jun'
+                                  ];
+                                  if (value.toInt() < months.length) {
+                                    return Text(
+                                      months[value.toInt()],
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.sp,
+                                      ),
+                                    );
+                                  }
+                                  return const Text('');
+                                },
+                                reservedSize: 30.h,
+                              ),
+                            ),
+                            leftTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            rightTitles: const AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          gridData: const FlGridData(show: false),
+                          barGroups: [
+                            _buildBarGroup(0, 40, 20), // Jan
+                            _buildBarGroup(1, 30, 35), // Feb
+                            _buildBarGroup(2, 25, 45), // Mar
+                            _buildBarGroup(3, 45, 30), // Apr
+                            _buildBarGroup(4, 60, 25), // May
+                            _buildBarGroup(5, 80, 0), // Jun
                           ],
                         ),
                       ),
                     ),
                   ],
-                  titlesData: FlTitlesData(
-                    show: false,
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  gridData: FlGridData(
-                    show: false,
-                  ),
-                  // Hide tooltips and interactions for a static display
-                  lineTouchData: LineTouchData(enabled: false),
                 ),
               ),
-            ),
-          ),
 
-          // Text overlay
-          Positioned(
-            top: 16,
-            left: 16,
-            child: Text(
-              'Trade Success Rate',
-              style: TextStyle(
-                color: Colors
-                    .black, // Changed to white for better contrast on dark background
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+              Gap(30.h),
+
+              // Menu Items
+              _buildMenuItem(
+                Assets.icons.trackYourTradingJourney.path,
+                'Trading journal',
+                'View and analyze your trades',
               ),
+              Gap(16.h),
+              _buildMenuItem(
+                Assets.icons.preTradeChecklist.path,
+                'Strategy Hub',
+                'Manage your trading strategy',
+              ),
+              Gap(16.h),
+              _buildMenuItem(
+                Assets.icons.routineIcon.path,
+                'Routine Tracker',
+                'View your trading routine',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String value, String label, Color valueColor) {
+    return Container(
+      height: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: AppColors.borderColor, // <-- Add this line for border color
+          width: 1, // You can adjust the width as needed
+        ),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey.withOpacity(0.1),
+        //     spreadRadius: 1,
+        //     blurRadius: 10,
+        //     offset: Offset(0, 2.h),
+        //   ),
+        // ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
+              color: valueColor,
             ),
           ),
-          Positioned(
-            top: 40,
-            left: 16,
-            child: Text(
-              '74%',
-              style: TextStyle(
-                color: Color(0xFF80DFDB), // Bright teal/cyan color
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+          Gap(4.h),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.grey,
+              height: 1.2,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLegendItem(String label, Color color) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const Gap(6),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  BarChartGroupData _buildBarGroup(int x, double profit, double loss) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: profit + loss,
+          color: Colors.transparent,
+          width: 20,
+          borderRadius: BorderRadius.circular(1.r),
+          rodStackItems: [
+            BarChartRodStackItem(0, loss, Colors.red),
+            BarChartRodStackItem(loss, profit + loss, Colors.green),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMenuItem(String icon, String title, String subtitle) {
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: Offset(0, 2.h),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Container(
+          //   padding: EdgeInsets.all(8.w),
+          //   decoration: BoxDecoration(
+          //     color: Colors.grey[100],
+          //     borderRadius: BorderRadius.circular(8.r),
+          //   ),
+          //   child: Icon(
+          //     icon,
+          //     size: 24.w,
+          //     color: Colors.black,
+          //   ),
+          // ),
+          SvgPicture.asset(icon, width: 24.w, height: 24.h),
+          Gap(16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                Gap(4.h),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.chevron_right,
+            color: Colors.grey,
+            size: 24.w,
           ),
         ],
       ),

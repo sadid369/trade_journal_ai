@@ -665,4 +665,10 @@ class AppStyle {
     fontWeight: FontWeight.w500,
     height: 1.12,
   );
+  static final TextStyle archivo20w500BlackH090 = GoogleFonts.archivo(
+    color: Colors.black,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w500,
+    height: 0.90,
+  );
 }
